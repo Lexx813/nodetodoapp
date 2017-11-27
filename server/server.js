@@ -10,8 +10,10 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-// ///////////////////////////////////////////// /////////////ROUTES //////POST
-// ROUTE
+// ///////////////////////////////////////////// /////////////ROUTES
+
+//////POST ROUTE
+
 app.post('/todos', (req, res) => {
     var todo = new Todo({text: req.body.text});
 
@@ -62,6 +64,26 @@ app.get('/todos/:id', (req, res) => {
                 .status(400)
                 .send();
         })
+});
+///////////DELETE
+app.delete('/todos/:id', (req, res) => {
+    // get the id
+    var id = req.params.id;
+//validate id
+    if (!ObjectID.isValid(id)) {
+        return res
+            .status(404)
+            .send();
+    }
+
+    Todo.findByIdAndRemove(id).then((todo) => {
+        if(!todo){
+            return res.status(404).send();
+        }
+        res.send({todo:todo});
+    }).catch((e) => {
+        res.status(400).send();
+    });
 });
 
 app.listen(port, () => {
