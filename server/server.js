@@ -123,7 +123,7 @@ app.patch('/todos/:id', (req, res) => {
 
 
 app.listen(port, () => {
-    console.log('SERVER STARTED ON DEV');
+    console.log('SERVER STARTED');
 });
 
 module.exports = {
